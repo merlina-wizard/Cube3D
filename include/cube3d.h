@@ -33,13 +33,29 @@ typedef struct s_game {
 	t_img texture[4]; // texture per il rendering (NO, SO, WE, EA)
 	t_color floor_c; // colori del pavimento e del soffitto
 	t_color ceiling_c; // colori del soffitto
+	t_img ceiling_tex;
+	t_img floor_tex; // texture del pavimento e del soffitt
 	t_img frame;
 
 } t_game;
 
 
 void	init_game (t_game *g);
-int	parse_map(t_game *g, char **lines);
+int		parse_map(t_game *g, char **lines);
+int		find_map_start(char **lines);
 void	free_split(char **split);
+void	init_player_dir(char c, t_player *p);
+int		validate_map(char **map, int height, t_player *player);
+void	 print_map(char **map);
+int		parse_render_info(t_game *g, char **lines, int map_start);
+int		render_frame(t_game *g);
+int		init_mlx(t_game *g);
+int		handle_key(int key, t_game *g);
+int		handle_exit(t_game *g);
+int		error(char *message);
+int		get_max_width(char **map, int height);
+int		is_valid_map_char(char c);
+void	free_all(t_game *g);
+void	move_player(t_game *g, int key);
 
 #endif

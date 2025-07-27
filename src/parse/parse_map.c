@@ -17,6 +17,8 @@ void	free_split(char **split)
 
 int	is_map_line(const char *line)
 {
+	if (!line || *line == '\0')
+		return (0);
 	while (*line)
 	{
 		if (!ft_strchr(" 01NSEW", *line))
@@ -28,9 +30,8 @@ int	is_map_line(const char *line)
 
 int	find_map_start(char **lines)
 {
-	int	i;
+	int	i = 0;
 
-	i = 0;
 	while (lines[i])
 	{
 		if (is_map_line(lines[i]))
@@ -40,14 +41,13 @@ int	find_map_start(char **lines)
 	return (-1);
 }
 
-int	count_map_lines(char **lines)
+int	count_map_lines(char **lines, int start)
 {
-	int	i;
+	int	count = 0;
 
-	i = 0;
-	while (lines[i] && is_map_line(lines[i]))
-		i++;
-	return (i);
+	while (lines[start + count])
+		count++;
+	return (count);
 }
 
 char	**extract_map(char **lines, int start, int height)
@@ -55,16 +55,14 @@ char	**extract_map(char **lines, int start, int height)
 	int		i;
 	char	**map;
 
-	i = 0;
 	map = malloc(sizeof(char *) * (height + 1));
 	if (!map)
 		return (NULL);
-	while (i < height)
+	for (i = 0; i < height; i++)
 	{
 		map[i] = ft_strdup(lines[start + i]);
 		if (!map[i])
 			return (free_split(map), NULL);
-		i++;
 	}
 	map[height] = NULL;
 	return (map);
@@ -73,78 +71,36 @@ char	**extract_map(char **lines, int start, int height)
 void	init_player_dir(char c, t_player *p)
 {
 	if (c == 'N')
-	{
-		p->dir_x = -1;
-		p->dir_y = 0;
-		p->plane_x = 0;
-		p->plane_y = 0.66;
-	}
+		(p->dir_x = -1, p->dir_y = 0, p->plane_x = 0, p->plane_y = 0.66);
 	else if (c == 'S')
-	{
-		p->dir_x = 1;
-		p->dir_y = 0;
-		p->plane_x = 0;
-		p->plane_y = -0.66;
-	}
+		(p->dir_x = 1, p->dir_y = 0, p->plane_x = 0, p->plane_y = -0.66);
 	else if (c == 'E')
-	{
-		p->dir_x = 0;
-		p->dir_y = 1;
-		p->plane_x = 0.66;
-		p->plane_y = 0;
-	}
+		(p->dir_x = 0, p->dir_y = 1, p->plane_x = 0.66, p->plane_y = 0);
 	else if (c == 'W')
-	{
-		p->dir_x = 0;
-		p->dir_y = -1;
-		p->plane_x = -0.66;
-		p->plane_y = 0;
-	}
+		(p->dir_x = 0, p->dir_y = -1, p->plane_x = -0.66, p->plane_y = 0);
 }
 
-int	set_player(t_player *player, int i, int j, char c)
-{
-	player->x = j + 0.5;
-	player->y = i + 0.5;
-	init_player_dir(c, player);
-	return (1);
-}
-
-int	validate_map_line(char *line, int i, t_player *p, int *count)
-{
-	int	j;
-
-	j = 0;
-	while (line[j])
-	{
-		if (ft_strchr("NSEW", line[j]))
-		{
-			if (*count)
-				return (error("Troppi player"));
-			*count += set_player(p, i, j, line[j]);
-		}
-		else if (!ft_strchr("01 ", line[j]))
-			return (error("Carattere non valido"));
-		j++;
-	}
-	return (1);
-}
-
-int	validate_map(char **map, int height, t_player *player)
+int	alloc_map(t_map *map, char **tmp_map)
 {
 	int	i;
-	int	count;
 
+	map->grid = malloc(sizeof(char *) * (map->height + 1));
+	if (!map->grid)
+		return (0);
 	i = 0;
-	count = 0;
-	while (i < height)
+	while (i < map->height)
 	{
-		if (!validate_map_line(map[i], i, player, &count))
+		map->grid[i] = ft_strdup(tmp_map[i]);
+		if (!map->grid[i])
+		{
+			while (i > 0)
+				free(map->grid[--i]);
+			free(map->grid);
 			return (0);
+		}
 		i++;
 	}
-	if (count != 1)
-		return (error("Errore Player"));
+	map->grid[map->height] = NULL;
 	return (1);
 }
 
@@ -156,16 +112,20 @@ int	parse_map(t_game *g, char **lines)
 
 	start = find_map_start(lines);
 	if (start == -1)
-		return (error("Mappa non trovata"));
-	height = count_map_lines(&lines[start]);
+		return (error("No map found"), 1);
+
+	height = count_map_lines(lines, start);
 	tmp_map = extract_map(lines, start, height);
 	if (!tmp_map)
-		return (error("Errore allocazione"));
+		return (error("Failed to extract map"), 1);
+
 	if (!validate_map(tmp_map, height, &g->player))
 		return (free_split(tmp_map), 1);
+
 	g->map.height = height;
 	g->map.width = get_max_width(tmp_map, height);
 	if (!alloc_map(&g->map, tmp_map))
-		return (free_split(tmp_map), error("Errore allocazione mappa"));
+		return (free_split(tmp_map), 1);
+
 	return (free_split(tmp_map), 0);
 }

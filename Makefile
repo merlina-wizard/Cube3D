@@ -1,36 +1,65 @@
-NAME = cub3D
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-MLX = -lmlx -framework OpenGL -framework AppKit
+# Makefile - cub3D
 
-SRC = main.c \
-      src/init/init_game.c \
-      src/init/init_map.c \
-      src/render/draw.c \
-      src/render/raycast.c \
-      src/player/movement.c \
-      src/player/rotation.c \
-      src/events/hooks.c \
-      src/events/exit.c \
-      src/utils/errors.c \
-      src/utils/colors.c
+NAME    = cub3D
+CC      = cc
+CFLAGS  = -Wall -Wextra -Werror -DBUFFER_SIZE=1024
+INCLUDES = -Iinclude -Iinclude/libft -Iinclude/gnl -Imlx
+MLX     = mlx/libmlx.a -lXext -lX11 -lm -lz
+
+SRC = \
+	main.c \
+	src/init/init.c \
+	src/parse/parse_map.c \
+	src/parse/validation_map.c \
+	src/parse/parse_render.c \
+	src/utils/utils.c \
+	src/events/events.c \
+	src/player/player.c \
+	src/render/render_frame.c \
+	include/gnl/get_next_line.c \
+	include/gnl/get_next_line_utils.c
 
 OBJ = $(SRC:.c=.o)
 
-INCLUDES = -Iinclude -Ilibft -Imlx
+LIBFT_DIR = include/libft
+LIBFT = $(LIBFT_DIR)/libft.a
+MLX_DIR = mlx
+MLX_LIB = $(MLX_DIR)/libmlx.a
+
+# Colors
+GREEN   = \033[0;32m
+YELLOW  = \033[1;33m
+BLUE    = \033[0;36m
+RESET   = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) libft/libft.a $(MLX) -o $(NAME)
+$(NAME): $(LIBFT) $(MLX_LIB) $(OBJ)
+	@echo "$(BLUE)🔧 Linking $(NAME)...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME)
+
+$(LIBFT):
+	@echo "$(BLUE)📦 Building libft...$(RESET)"
+	@make -C $(LIBFT_DIR) > /dev/null
+
+$(MLX_LIB):
+	@echo "$(BLUE)📦 Building MLX...$(RESET)"
+	@make -C $(MLX_DIR) > /dev/null
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
+	@echo "$(YELLOW)🧹 Cleaning object files...$(RESET)"
+	@rm -f $(OBJ)
+	@make -C $(LIBFT_DIR) clean > /dev/null
+	@make -C $(MLX_DIR) clean > /dev/null
 
 fclean: clean
-	rm -f $(NAME)
+	@echo "$(YELLOW)🗑️ Removing binary...$(RESET)"
+	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean > /dev/null
 
 re: fclean all
+
+.PHONY: all clean fclean re
