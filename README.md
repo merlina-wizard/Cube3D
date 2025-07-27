@@ -40,3 +40,16 @@ colori soffitto/pav.     (e validazione)
                ▼
       Fine programma (ESC, X)
          └─> free() e exit()
+
+
+struttura include:
+
+	t_game → la struttura principale con tutti i dati del gioco
+
+	t_player → posizione e direzione del giocatore
+
+	t_map → mappa come matrice di caratteri
+
+	t_img → immagine MLX per texture e rendering
+
+	t_color → colore RGB per floor/ceiling
