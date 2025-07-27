@@ -11,4 +11,13 @@ typedef struct s_img {
 	int size_line; // dimensione della riga in byte
 } t_img;
 
+typedef enum e_tex_dir
+{
+	TEX_NO = 0,
+	TEX_SO = 1,
+	TEX_WE = 2,
+	TEX_EA = 3
+
+}	t_tex_dir;
+
 #endif

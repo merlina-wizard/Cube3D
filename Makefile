@@ -17,12 +17,15 @@ SRC = main.c \
 
 OBJ = $(SRC:.c=.o)
 
-INCLUDES = -Iinclude -Ilibft
+INCLUDES = -Iinclude -Ilibft -Imlx
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) libft/libft.a $(MLX) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)

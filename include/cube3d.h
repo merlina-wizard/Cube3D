@@ -1,12 +1,26 @@
 #ifndef CUBE3D_H
 #define CUBE3D_H
 
+#include "libft/libft.h"
+#include "gnl/get_next_line.h"
 #include "events.h"
 #include "map.h"
 #include "player.h"
 #include "render.h"
 #include "utils.h"
 #include <mlx.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <stdbool.h>
+#include <limits.h>
+#include <stdint.h>
+#include <fcntl.h>
+
 
 typedef struct s_game {
 	void *mlx; //puntatore a mlx
@@ -23,5 +37,9 @@ typedef struct s_game {
 
 } t_game;
 
+
+void	init_game (t_game *g);
+int	parse_map(t_game *g, char **lines);
+void	free_split(char **split);
 
 #endif
