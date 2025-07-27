@@ -1,0 +1,18 @@
+# Ignora tutti i file oggetto
+*.o
+
+# Ignora l'eseguibile
+cub3D
+
+# Ignora i file di backup o temporanei
+*~
+*.swp
+
+# Ignora directory nascoste di sistema
+.DS_Store
+
+# Ignora file di compilazione della libft e della mlx
+include/libft/*.o
+include/libft/libft.a
+mlx/*.o
+mlx/libmlx.a
