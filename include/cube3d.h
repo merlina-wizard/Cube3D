@@ -70,7 +70,7 @@ void	move_player(t_game *g, int key);
 int		init_window_and_frame(t_game *g);
 int		mlx_boot(t_game *g);
 int load_texture(void *mlx, t_img *t, char *path, char *msg);
-void draw_wall_slice(t_game *g, int x);
+void draw_wall_slice(t_game *g, int x, t_ray *r);
 void cast_ray(t_game *g, int x);
 
 #endif

@@ -65,7 +65,7 @@ void	render_walls(t_game *g)
 	while (x < g->win_w)
 	{
 		cast_ray(g, x);
-		draw_wall_slice(g, x);
+		draw_wall_slice(g, x, &g->ray);
 		x++;
 	}
 }
