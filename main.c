@@ -8,7 +8,11 @@ static int open_and_read_file(const char *p, char ***out)
 	char *line, *tmp; char **split;
 
 	if (fd < 0 || !joined)
+	{
+		if (joined)
+			free(joined);
 		return error("File open or malloc failed");
+	}
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -73,5 +77,6 @@ int main(int ac, char **av)
 	mlx_hook(g.win, 17, 0, handle_exit, &g);
 	mlx_hook(g.win, 2, 1L<<0, handle_key, &g);
 	mlx_loop(g.mlx);
+	free_all(&g);
 	return 0;
 }

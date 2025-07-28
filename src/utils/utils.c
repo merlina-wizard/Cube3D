@@ -53,15 +53,18 @@ int	get_max_width(char **map, int height)
 void	free_textures(t_game *g)
 {
 	int	i = 0;
+
+	if (!g || !g->mlx)
+		return;
 	while (i < 4)
 	{
-		if (g->texture[i].img_ptr && g->mlx)
+		if (g->texture[i].img_ptr)
 			mlx_destroy_image(g->mlx, g->texture[i].img_ptr);
 		i++;
 	}
-	if (g->floor_tex.img_ptr && g->mlx)
+	if (g->floor_tex.img_ptr)
 		mlx_destroy_image(g->mlx, g->floor_tex.img_ptr);
-	if (g->ceiling_tex.img_ptr && g->mlx)
+	if (g->ceiling_tex.img_ptr)
 		mlx_destroy_image(g->mlx, g->ceiling_tex.img_ptr);
 }
 
@@ -72,7 +75,7 @@ void	free_all(t_game *g)
 	if (!g)
 		return;
 	free_textures(g);
-	if (g->frame.img_ptr && g->mlx)
+	if (g->mlx && g->frame.img_ptr)
 		mlx_destroy_image(g->mlx, g->frame.img_ptr);
 	if (g->map.grid)
 	{
