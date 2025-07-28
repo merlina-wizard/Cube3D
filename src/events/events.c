@@ -13,5 +13,36 @@ int	handle_key(int key, t_game *g)
 		handle_exit(g);
 	else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
 		move_player(g, key);
+	else if (key == KEY_LEFT)
+		rotate_player(&g->player, g->player.rot_speed);
+	else if (key == KEY_RIGHT)
+		rotate_player(&g->player, -g->player.rot_speed);
 	return (0);
+}
+
+#define MOUSE_SENS 0.002
+
+static int center_mouse(t_game *g, int cx, int cy)
+{
+	mlx_mouse_move(g->mlx, g->win, cx, cy);
+	return (0);
+}
+
+void handle_mouse_rotation_bonus(t_game *g)
+{
+	int mx, my;
+	int cx = g->win_w / 2;
+	int cy = g->win_h / 2;
+	int dx;
+	double angle;
+
+	if (mlx_mouse_get_pos(g->mlx, g->win, &mx, &my) != 0)
+		return ;
+	dx = mx - cx;
+	if (dx != 0)
+	{
+		angle = (double)dx * MOUSE_SENS;
+		rotate_player(&g->player, angle);
+		center_mouse(g, cx, cy);
+	}
 }

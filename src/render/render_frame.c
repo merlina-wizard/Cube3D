@@ -104,6 +104,7 @@ int render_frame(t_game *g)
 	else
 		draw_bg_color(g);
 	render_walls(g);
+	handle_mouse_rotation_bonus(g);
 	mlx_put_image_to_window(g->mlx, g->win, g->frame.img_ptr, 0, 0);
 	return (0);
 }
