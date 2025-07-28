@@ -1,38 +1,34 @@
 #include "cube3d.h"
-#include <math.h>
+
+static int	is_wall(t_game *g, double y, double x)
+{
+	int iy = (int)y;
+	int ix = (int)x;
+
+	if (iy < 0 || iy >= g->map.height)
+		return (1);
+	if (ix < 0 || ix >= (int)ft_strlen(g->map.grid[iy]))
+		return (1);
+	return (g->map.grid[iy][ix] == '1');
+}
 
 void	move_player(t_game *g, int key)
 {
-	double	move_step = g->player.move_speed;
-	double	new_x, new_y;
+	double ms = g->player.move_speed;
+	double dx = 0, dy = 0;
 
-	if (key == KEY_W)
+	if (key == KEY_W || key == KEY_S)
 	{
-		new_x = g->player.x + g->player.dir_x * move_step;
-		new_y = g->player.y + g->player.dir_y * move_step;
+		dx = g->player.dir_x * (key == KEY_W ? 1 : -1);
+		dy = g->player.dir_y * (key == KEY_W ? 1 : -1);
 	}
-	else if (key == KEY_S)
+	else if (key == KEY_A || key == KEY_D)
 	{
-		new_x = g->player.x - g->player.dir_x * move_step;
-		new_y = g->player.y - g->player.dir_y * move_step;
+		dx = g->player.plane_x * (key == KEY_D ? 1 : -1);
+		dy = g->player.plane_y * (key == KEY_D ? 1 : -1);
 	}
-	else if (key == KEY_A)
-	{
-		new_x = g->player.x - g->player.plane_x * move_step;
-		new_y = g->player.y - g->player.plane_y * move_step;
-	}
-	else if (key == KEY_D)
-	{
-		new_x = g->player.x + g->player.plane_x * move_step;
-		new_y = g->player.y + g->player.plane_y * move_step;
-	}
-	else
-		return;
-
-	// Verifica collisioni
-	if (g->map.grid[(int)new_y][(int)new_x] != '1')
-	{
-		g->player.x = new_x;
-		g->player.y = new_y;
-	}
+	if (!is_wall(g, g->player.y, g->player.x + dx * ms))
+		g->player.x += dx * ms;
+	if (!is_wall(g, g->player.y + dy * ms, g->player.x))
+		g->player.y += dy * ms;
 }

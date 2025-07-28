@@ -13,12 +13,10 @@ int	is_valid_map_char(char c)
 
 int	get_max_width(char **map, int height)
 {
-	int	i;
-	int	max;
+	int	i = 0;
+	int	max = 0;
 	int	current;
 
-	i = 0;
-	max = 0;
 	while (i < height)
 	{
 		current = ft_strlen(map[i]);
@@ -29,21 +27,44 @@ int	get_max_width(char **map, int height)
 	return (max);
 }
 
+void	free_textures(t_game *g)
+{
+	int	i = 0;
+	while (i < 4)
+	{
+		if (g->texture[i].img_ptr && g->mlx)
+			mlx_destroy_image(g->mlx, g->texture[i].img_ptr);
+		i++;
+	}
+	if (g->floor_tex.img_ptr && g->mlx)
+		mlx_destroy_image(g->mlx, g->floor_tex.img_ptr);
+	if (g->ceiling_tex.img_ptr && g->mlx)
+		mlx_destroy_image(g->mlx, g->ceiling_tex.img_ptr);
+}
+
 void	free_all(t_game *g)
 {
+	int	i = 0;
+
+	if (!g)
+		return;
+	free_textures(g);
+	if (g->frame.img_ptr && g->mlx)
+		mlx_destroy_image(g->mlx, g->frame.img_ptr);
+	if (g->map.grid)
+	{
+		while (i < g->map.height && g->map.grid[i])
+			free(g->map.grid[i++]);
+		free(g->map.grid);
+		g->map.grid = NULL;
+	}
 	if (g->mlx)
 	{
-		if (g->frame.img_ptr)
-			mlx_destroy_image(g->mlx, g->frame.img_ptr);
 		if (g->win)
 			mlx_destroy_window(g->mlx, g->win);
 		mlx_destroy_display(g->mlx);
 		free(g->mlx);
 	}
-	for (int i = 0; i < 4; i++)
-	{
-		if (g->texture[i].img_ptr)
-			mlx_destroy_image(g->mlx, g->texture[i].img_ptr);
-	}
-	free(g->map.grid);
+	g->mlx = NULL;
+	g->win = NULL;
 }

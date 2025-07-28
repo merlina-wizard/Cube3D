@@ -7,11 +7,13 @@ typedef struct s_player {
 	double y; // posizione y del giocatore
 	double dir_x; // componente x della direzione del giocatore
 	double dir_y; // componente y della direzione del giocatore
-	double plane_x;   // piano visivo orizzontale (per FOV)
-	double plane_y;   // piano visivo verticale (per FOV)
+	double plane_x; // componente x del piano di proiezione
+	double plane_y; // componente y del piano di proiezione
 	double move_speed;
 	double rot_speed;
 
 } t_player;
+
+
 
 #endif

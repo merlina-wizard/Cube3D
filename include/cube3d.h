@@ -21,6 +21,15 @@
 #include <stdint.h>
 #include <fcntl.h>
 
+typedef struct s_ray {
+	double rayDirX, rayDirY;
+	int mapX, mapY;
+	double sideDistX, sideDistY;
+	double deltaDistX, deltaDistY;
+	int stepX, stepY;
+	int hit, side;
+	double perp_dist;
+} t_ray;
 
 typedef struct s_game {
 	void *mlx; //puntatore a mlx
@@ -36,6 +45,7 @@ typedef struct s_game {
 	t_img ceiling_tex;
 	t_img floor_tex; // texture del pavimento e del soffitt
 	t_img frame;
+	t_ray ray; // struttura per il raycasting
 
 } t_game;
 
@@ -57,5 +67,10 @@ int		get_max_width(char **map, int height);
 int		is_valid_map_char(char c);
 void	free_all(t_game *g);
 void	move_player(t_game *g, int key);
+int		init_window_and_frame(t_game *g);
+int		mlx_boot(t_game *g);
+int load_texture(void *mlx, t_img *t, char *path, char *msg);
+void draw_wall_slice(t_game *g, int x);
+void cast_ray(t_game *g, int x);
 
 #endif

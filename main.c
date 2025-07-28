@@ -1,28 +1,5 @@
 #include "cube3d.h"
 
-char	**read_file_lines(int fd)
-{
-	char	*line;
-	char	*joined;
-	char	**lines;
-
-	joined = ft_strdup("");
-	if (!joined)
-		return (NULL);
-	while ((line = get_next_line(fd)))
-	{
-		char *tmp = ft_strjoin(joined, line);
-		free(joined);
-		free(line);
-		if (!tmp)
-			return (NULL);
-		joined = tmp;
-	}
-	lines = ft_split(joined, '\n');
-	free(joined);
-	return (lines);
-}
-
 void	print_map(char **map)
 {
 	int	i = 0;
@@ -33,53 +10,77 @@ void	print_map(char **map)
 	}
 }
 
-#include "cube3d.h"
-
-int	main(int argc, char **argv)
+static int open_and_read_file(const char *p, char ***out)
 {
-	t_game	game;
-	char	**file_lines;
-	int		fd;
-	int		map_start;
+	int fd = open(p, O_RDONLY);
+	char *joined = ft_strdup("");
+	char *line, *tmp; char **split;
 
-	if (argc != 2)
-		return (printf("Usage: ./maptest map.cub\n"), 1);
+	if (fd < 0 || !joined)
+		return error("File open or malloc failed");
+	line = get_next_line(fd);
+	while (line)
+	{
+		tmp = ft_strjoin(joined, line);
+		free(joined), free(line);
+		if (!tmp)
+			return error("Join failed");
+		joined = tmp;
+		line = get_next_line(fd);
+	}
+	close(fd);
+	split = ft_split(joined, '\n');
+	free(joined);
+	if (!split)
+		return error("Split failed");
+	*out = split;
+	return 1;
+}
 
-	init_game(&game);
+static int parse_all(t_game *g, char **lines)
+{
+	int ms = find_map_start(lines);
+	if (ms < 0)
+		return (free_split(lines), error("Map not found"));
+	if (!parse_render_info(g, lines, ms))
+		return (free_split(lines), 0);
+	if (parse_map(g, lines) != 0)
+		return (free_split(lines), 0);
+	free_split(lines);
+	return 1;
+}
 
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-		return (printf("Errore apertura file\n"), 1);
+int check_missing_wall_textures(t_game *g)
+{
+	int i = 0;
+	while (i < 4)
+		if (!g->texture[i++].img_ptr)
+			return error("Missing one of NO/SO/WE/EA");
+	return 1;
+}
 
-	file_lines = read_file_lines(fd);
-	if (!file_lines)
-		return (printf("Errore lettura file\n"), 1);
+int main(int ac, char **av)
+{
+	t_game g;
+	char **file_lines;
 
-	map_start = find_map_start(file_lines);
-	if (map_start == -1)
-		return (free_split(file_lines), printf("Map not found\n"), 1);
-
-	// ⚠️ Prima inizializza MiniLibX, poi carica texture
-	if (!init_mlx(&game))
-		return (free_split(file_lines), free_all(&game), 1);
-
-	if (!parse_render_info(&game, file_lines, map_start))
-		return (free_split(file_lines), free_all(&game), 1);
-
-	if (parse_map(&game, file_lines) != 0)
-		return (free_split(file_lines), free_all(&game), 1);
-
-	free_split(file_lines);
-
-	printf("✅ Mappa e informazioni rendering caricate correttamente!\n");
-
-	// 🎮 Hook eventi
-	mlx_loop_hook(game.mlx, render_frame, &game);
-	mlx_hook(game.win, 17, 0, handle_exit, &game);         // click X
-	mlx_hook(game.win, 2, 1L << 0, handle_key, &game);     // key press
-
-	// 🌀 Avvia loop principale
-	mlx_loop(game.mlx);
-
-	return (0);
+	if (ac != 2)
+		return printf("Usage: ./cub3D map.cub\n"), 1;
+	init_game(&g);
+	if (!open_and_read_file(av[1], &file_lines))
+		return free_all(&g), 1;
+	if (!mlx_boot(&g))
+		return free_split(file_lines), free_all(&g), 1;
+	if (!parse_all(&g, file_lines))
+		return free_all(&g), 1;
+	if (!check_missing_wall_textures(&g))
+		return free_all(&g), 1;
+	if (!init_window_and_frame(&g))
+		return free_all(&g), 1;
+	printf("✅ Mappa e info rendering caricate!\n");
+	mlx_loop_hook(g.mlx, render_frame, &g);
+	mlx_hook(g.win, 17, 0, handle_exit, &g);
+	mlx_hook(g.win, 2, 1L<<0, handle_key, &g);
+	mlx_loop(g.mlx);
+	return 0;
 }

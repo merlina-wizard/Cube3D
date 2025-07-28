@@ -8,7 +8,8 @@ MLX     = mlx/libmlx.a -lXext -lX11 -lm -lz
 
 SRC = \
 	main.c \
-	src/init/init.c \
+	src/init/init_game.c \
+	src/init/init_mlx.c \
 	src/parse/parse_map.c \
 	src/parse/validation_map.c \
 	src/parse/parse_render.c \
@@ -16,6 +17,7 @@ SRC = \
 	src/events/events.c \
 	src/player/player.c \
 	src/render/render_frame.c \
+	src/render/raycast.c \
 	include/gnl/get_next_line.c \
 	include/gnl/get_next_line_utils.c
 
