@@ -11,12 +11,12 @@ int ft_strcmp(const char *s1, const char *s2)
 	return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
-static int is_color_key(char *k)
+int is_color_key(char *k)
 {
 	return (!ft_strcmp(k, "F") || !ft_strcmp(k, "C"));
 }
 
-static int parse_color_line(char *key, char *val, t_game *g)
+int parse_color_line(char *key, char *val, t_game *g)
 {
 	char **rgb;
 	if (!ft_strncmp(val + ft_strlen(val) - 4, ".xpm", 4))

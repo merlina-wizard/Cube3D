@@ -1,5 +1,28 @@
 #include "cube3d.h"
 
+void print_map(char **map)
+{
+	int	i = 0;
+	while (map[i])
+	{
+		printf("%s\n", map[i]);
+		i++;
+	}
+}
+
+int	find_map_start(char **lines)
+{
+	int	i = 0;
+
+	while (lines[i])
+	{
+		if (is_map_line(lines[i]))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 int	error(char *message)
 {
 	printf("Error: %s\n", message);

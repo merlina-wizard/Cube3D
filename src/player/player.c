@@ -1,6 +1,6 @@
 #include "cube3d.h"
 
-static int is_wall(t_game *g, double y, double x)
+int is_wall(t_game *g, double y, double x)
 {
 	int iy = (int)y;
 	int ix = (int)x;
@@ -12,7 +12,7 @@ static int is_wall(t_game *g, double y, double x)
 	return (g->map.grid[iy][ix] == '1');
 }
 
-static void get_direction(t_game *g, int key, double *dx, double *dy)
+void get_direction(t_game *g, int key, double *dx, double *dy)
 {
 	if (key == KEY_W)
 	{
@@ -41,7 +41,7 @@ static void get_direction(t_game *g, int key, double *dx, double *dy)
 	}
 }
 
-static double offset(double val, double dir, double buffer)
+double offset(double val, double dir, double buffer)
 {
 	if (dir > 0.0)
 		return val + buffer;
@@ -50,7 +50,7 @@ static double offset(double val, double dir, double buffer)
 	return val;
 }
 
-static void try_move(t_game *g, double new_x, double new_y, double buffer)
+void try_move(t_game *g, double new_x, double new_y, double buffer)
 {
 	double dx = new_x - g->player.x;
 	double dy = new_y - g->player.y;

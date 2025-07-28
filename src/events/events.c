@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   events.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mamerlin <mamerlin@student.42roma.it>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/28 16:21:51 by mamerlin          #+#    #+#             */
+/*   Updated: 2025/07/28 16:55:31 by mamerlin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
 int	handle_exit(t_game *g)
@@ -22,7 +34,7 @@ int	handle_key(int key, t_game *g)
 
 #define MOUSE_SENS 0.002
 
-static int center_mouse(t_game *g, int cx, int cy)
+int center_mouse(t_game *g, int cx, int cy)
 {
 	mlx_mouse_move(g->mlx, g->win, cx, cy);
 	return (0);

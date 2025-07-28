@@ -1,14 +1,5 @@
 #include "cube3d.h"
 
-void	print_map(char **map)
-{
-	int	i = 0;
-	while (map[i])
-	{
-		printf("%s\n", map[i]);
-		i++;
-	}
-}
 
 static int open_and_read_file(const char *p, char ***out)
 {
