@@ -1,41 +1,73 @@
 #include "cube3d.h"
 
-static void	draw_bg_color(t_game *g)
+static int get_sky_color(t_color c)
+{
+	return (c.r << 16) | (c.g << 8) | c.b;
+}
+
+static void put_bg_pixel(t_game *g, int x, int y, int sky, int floor)
+{
+	int *pixel;
+
+	pixel = (int *)(g->frame.data + y * g->frame.size_line + x * 4);
+	if (y < g->win_h / 2)
+		*pixel = sky;
+	else
+		*pixel = floor;
+}
+
+static void draw_bg_color(t_game *g)
 {
 	int y;
 	int x;
-	int *pixel;
 	int sky;
 	int floor;
 
-	sky = (g->ceiling_c.r << 16) | (g->ceiling_c.g << 8) | g->ceiling_c.b;
-	floor = (g->floor_c.r << 16) | (g->floor_c.g << 8) | g->floor_c.b;
+	sky = get_sky_color(g->ceiling_c);
+	floor = get_sky_color(g->floor_c);
 	y = 0;
 	while (y < g->win_h)
 	{
 		x = 0;
 		while (x < g->win_w)
 		{
-			pixel = (int *)(g->frame.data + y * g->frame.size_line + x * 4);
-			if (y < g->win_h / 2)
-				*pixel = sky;
-			else
-				*pixel = floor;
+			put_bg_pixel(g, x, y, sky, floor);
 			x++;
 		}
 		y++;
 	}
 }
 
-static void	draw_bg_tex(t_game *g)
+static t_img *get_tex(t_game *g, int y)
 {
-	int		x;
-	int		y;
-	int		tex_x;
-	int		tex_y;
-	int		*pixel;
-	int		color;
-	t_img	*tex;
+	if (y < g->win_h / 2)
+		return (&g->ceiling_tex);
+	return (&g->floor_tex);
+}
+
+static void draw_tex_pixel(t_game *g, int x, int y)
+{
+	t_img *tex;
+	int tex_x;
+	int tex_y;
+	int color;
+	int *pixel;
+
+	tex = get_tex(g, y);
+	if (y < g->win_h / 2)
+		tex_y = (y * tex->height) / (g->win_h / 2);
+	else
+		tex_y = ((y - g->win_h / 2) * tex->height) / (g->win_h / 2);
+	tex_x = (x * tex->width) / g->win_w;
+	color = *(int *)(tex->data + tex_y * tex->size_line + tex_x * 4);
+	pixel = (int *)(g->frame.data + y * g->frame.size_line + x * 4);
+	*pixel = color;
+}
+
+static void draw_bg_tex(t_game *g)
+{
+	int x;
+	int y;
 
 	y = 0;
 	while (y < g->win_h)
@@ -43,25 +75,18 @@ static void	draw_bg_tex(t_game *g)
 		x = 0;
 		while (x < g->win_w)
 		{
-			if (y < g->win_h / 2)
-				tex = &g->ceiling_tex;
-			else
-				tex = &g->floor_tex;
-			tex_y = (y < g->win_h / 2) ? (y * tex->height) / (g->win_h / 2)
-									  : ((y - g->win_h / 2) * tex->height) / (g->win_h / 2);
-			tex_x = (x * tex->width) / g->win_w;
-			color = *(int *)(tex->data + tex_y * tex->size_line + tex_x * 4);
-			pixel = (int *)(g->frame.data + y * g->frame.size_line + x * 4);
-			*pixel = color;
+			draw_tex_pixel(g, x, y);
 			x++;
 		}
 		y++;
 	}
 }
 
-void	render_walls(t_game *g)
+void render_walls(t_game *g)
 {
-	int x = 0;
+	int x;
+
+	x = 0;
 	while (x < g->win_w)
 	{
 		cast_ray(g, x);
@@ -70,7 +95,7 @@ void	render_walls(t_game *g)
 	}
 }
 
-int	render_frame(t_game *g)
+int render_frame(t_game *g)
 {
 	if (!g->frame.img_ptr)
 		return (0);
