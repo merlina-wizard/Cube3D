@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamerlin <mamerlin@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:21:51 by mamerlin          #+#    #+#             */
-/*   Updated: 2025/07/28 17:38:46 by mamerlin         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:46:55 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,37 @@ int	handle_key(int key, t_game *g)
 	else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
 		move_player(g, key);
 	else if (key == KEY_LEFT)
-		rotate_player(&g->player, g->player.rot_speed);
-	else if (key == KEY_RIGHT)
 		rotate_player(&g->player, -g->player.rot_speed);
+	else if (key == KEY_RIGHT)
+		rotate_player(&g->player, g->player.rot_speed);
 	return (0);
 }
 
 #define MOUSE_SENS 0.002
 
-int center_mouse(t_game *g, int cx, int cy)
+int	center_mouse(t_game *g, int cx, int cy)
 {
 	mlx_mouse_move(g->mlx, g->win, cx, cy);
 	return (0);
 }
 
-void handle_mouse_rotation_bonus(t_game *g)
+void	handle_mouse_rotation_bonus(t_game *g)
 {
-	int mx, my;
-	int cx = g->win_w / 2;
-	int cy = g->win_h / 2;
-	int dx;
-	double angle;
+	t_coord	center;
+	int		mx;
+	int		my;
+	int		dx;
+	double	angle;
 
+	center.x = g->win_w / 2;
+	center.y = g->win_h / 2;
 	if (mlx_mouse_get_pos(g->mlx, g->win, &mx, &my) != 0)
 		return ;
-	dx = mx - cx;
+	dx = mx - (int)center.x;
 	if (dx != 0)
 	{
 		angle = (double)dx * MOUSE_SENS;
 		rotate_player(&g->player, angle);
-		center_mouse(g, cx, cy);
+		center_mouse(g, (int)center.x, (int)center.y);
 	}
 }

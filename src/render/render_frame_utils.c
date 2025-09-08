@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_frame_utils.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/05 16:56:19 by lorenzo           #+#    #+#             */
+/*   Updated: 2025/08/07 10:41:48 by lorenzo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
-void draw_bg_tex(t_game *g)
+void	draw_bg_tex(t_game *g)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	y = 0;
 	while (y < g->win_h)
@@ -18,13 +30,13 @@ void draw_bg_tex(t_game *g)
 	}
 }
 
-void draw_tex_pixel(t_game *g, int x, int y)
+void	draw_tex_pixel(t_game *g, int x, int y)
 {
-	t_img *tex;
-	int tex_x;
-	int tex_y;
-	int color;
-	int *pixel;
+	t_img	*tex;
+	int		tex_x;
+	int		tex_y;
+	int		color;
+	int		*pixel;
 
 	tex = get_tex(g, y);
 	if (y < g->win_h / 2)
@@ -37,7 +49,7 @@ void draw_tex_pixel(t_game *g, int x, int y)
 	*pixel = color;
 }
 
-t_img *get_tex(t_game *g, int y)
+t_img	*get_tex(t_game *g, int y)
 {
 	if (y < g->win_h / 2)
 		return (&g->ceiling_tex);

@@ -1,7 +1,18 @@
-// init_game.c
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_game.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/04 15:58:49 by lorenzo           #+#    #+#             */
+/*   Updated: 2025/08/04 16:00:07 by lorenzo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
-static void init_window_and_map(t_game *g)
+static void	init_window_and_map(t_game *g)
 {
 	g->mlx = NULL;
 	g->win = NULL;
@@ -12,10 +23,11 @@ static void init_window_and_map(t_game *g)
 	g->map.height = 0;
 }
 
-static void init_player_and_textures(t_game *g)
+static void	init_player_and_textures(t_game *g)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	g->player.x = 0;
 	g->player.y = 0;
 	g->player.dir_x = 0;
@@ -32,7 +44,7 @@ static void init_player_and_textures(t_game *g)
 	g->ceiling_c = (t_color){-1, -1, -1};
 }
 
-void init_game(t_game *g)
+void	init_game(t_game *g)
 {
 	init_window_and_map(g);
 	init_player_and_textures(g);

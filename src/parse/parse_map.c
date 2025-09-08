@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/04 16:01:55 by lorenzo           #+#    #+#             */
+/*   Updated: 2025/09/01 23:27:41 by lorenzo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
 char	**extract_map(char **lines, int start, int height)
@@ -46,16 +58,20 @@ int	parse_map(t_game *g, char **lines)
 	int		start;
 	int		height;
 	char	**tmp_map;
+	t_map	temp_map;
 
 	if (!load_tmp_map(&tmp_map, lines, &start, &height))
 		return (1);
-	if (!validate_map(tmp_map, height, &g->player))
+	temp_map.grid = tmp_map;
+	temp_map.height = height;
+	temp_map.width = get_max_width(tmp_map, height);
+	if (!validate_map(&temp_map, &g->player))
 	{
 		free_split(tmp_map);
 		return (1);
 	}
 	g->map.height = height;
-	g->map.width = get_max_width(tmp_map, height);
+	g->map.width = temp_map.width;
 	if (!alloc_map(&g->map, tmp_map))
 	{
 		free_split(tmp_map);

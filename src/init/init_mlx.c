@@ -1,33 +1,44 @@
-// init_mlx.c
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_mlx.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/04 15:56:49 by lorenzo           #+#    #+#             */
+/*   Updated: 2025/08/04 15:58:38 by lorenzo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
-int mlx_boot(t_game *g)
+int	mlx_boot(t_game *g)
 {
 	g->mlx = mlx_init();
 	if (!g->mlx)
-		return error("mlx_init failed");
-	return 1;
+		return (error("mlx_init failed"));
+	return (1);
 }
 
-int load_texture(void *mlx, t_img *t, char *path, char *msg)
+int	load_texture(void *mlx, t_img *t, char *path, char *msg)
 {
 	t->img_ptr = mlx_xpm_file_to_image(mlx, path, &t->width, &t->height);
 	if (!t->img_ptr)
-		return error(msg);
+		return (error(msg));
 	t->data = mlx_get_data_addr(t->img_ptr,
-		&t->bpp, &t->size_line, &t->endian);
-	return 1;
+			&t->bpp, &t->size_line, &t->endian);
+	return (1);
 }
 
-int init_window_and_frame(t_game *g)
+int	init_window_and_frame(t_game *g)
 {
 	g->win = mlx_new_window(g->mlx, g->win_w, g->win_h, "cub3D");
 	if (!g->win)
-		return error("mlx_new_window failed");
+		return (error("mlx_new_window failed"));
 	g->frame.img_ptr = mlx_new_image(g->mlx, g->win_w, g->win_h);
 	if (!g->frame.img_ptr)
-		return error("Failed to create frame buffer");
+		return (error("Failed to create frame buffer"));
 	g->frame.data = mlx_get_data_addr(g->frame.img_ptr,
-		&g->frame.bpp, &g->frame.size_line, &g->frame.endian);
-	return 1;
+			&g->frame.bpp, &g->frame.size_line, &g->frame.endian);
+	return (1);
 }

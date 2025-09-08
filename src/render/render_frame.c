@@ -1,46 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_frame.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/06 17:17:08 by lorenzo           #+#    #+#             */
+/*   Updated: 2025/09/02 00:21:29 by lorenzo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
-int get_sky_color(t_color c)
+int	get_sky_color(t_color c)
 {
-	return (c.r << 16) | (c.g << 8) | c.b;
+	return ((c.r << 16) | (c.g << 8) | c.b);
 }
 
-void put_bg_pixel(t_game *g, int x, int y, int sky, int floor)
+void	put_bg_pixel(t_game *g, t_coord pos, int sky, int floor)
 {
-	int *pixel;
+	int	*pixel;
 
-	pixel = (int *)(g->frame.data + y * g->frame.size_line + x * 4);
-	if (y < g->win_h / 2)
+	pixel = (int *)(g->frame.data + (int)pos.y * g->frame.size_line
+			+ (int)pos.x * 4);
+	if ((int)pos.y < g->win_h / 2)
 		*pixel = sky;
 	else
 		*pixel = floor;
 }
 
-void draw_bg_color(t_game *g)
+void	draw_bg_color(t_game *g)
 {
-	int y;
-	int x;
-	int sky;
-	int floor;
+	t_coord	pos;
+	int		sky;
+	int		floor;
 
 	sky = get_sky_color(g->ceiling_c);
 	floor = get_sky_color(g->floor_c);
-	y = 0;
-	while (y < g->win_h)
+	pos.y = 0;
+	while ((int)pos.y < g->win_h)
 	{
-		x = 0;
-		while (x < g->win_w)
+		pos.x = 0;
+		while ((int)pos.x < g->win_w)
 		{
-			put_bg_pixel(g, x, y, sky, floor);
-			x++;
+			put_bg_pixel(g, pos, sky, floor);
+			pos.x++;
 		}
-		y++;
+		pos.y++;
 	}
 }
 
-void render_walls(t_game *g)
+void	render_walls(t_game *g)
 {
-	int x;
+	int	x;
 
 	x = 0;
 	while (x < g->win_w)
@@ -51,7 +63,7 @@ void render_walls(t_game *g)
 	}
 }
 
-int render_frame(t_game *g)
+int	render_frame(t_game *g)
 {
 	if (!g->frame.img_ptr)
 		return (0);

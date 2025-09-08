@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/05 15:36:58 by lorenzo           #+#    #+#             */
+/*   Updated: 2025/09/03 14:14:21 by lorenzo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
-int is_wall(t_game *g, double y, double x)
+int	is_wall(t_game *g, double y, double x)
 {
-	int iy = (int)y;
-	int ix = (int)x;
+	int	iy;
+	int	ix;
 
+	iy = (int)y;
+	ix = (int)x;
 	if (iy < 0 || iy >= g->map.height)
 		return (1);
 	if (ix < 0 || ix >= (int)ft_strlen(g->map.grid[iy]))
@@ -12,7 +26,7 @@ int is_wall(t_game *g, double y, double x)
 	return (g->map.grid[iy][ix] == '1');
 }
 
-void get_direction(t_game *g, int key, double *dx, double *dy)
+void	get_direction(t_game *g, int key, double *dx, double *dy)
 {
 	if (key == KEY_W)
 	{
@@ -41,59 +55,50 @@ void get_direction(t_game *g, int key, double *dx, double *dy)
 	}
 }
 
-double offset(double val, double dir, double buffer)
+void	try_move(t_game *g, double new_x, double new_y, double buffer)
 {
-	if (dir > 0.0)
-		return val + buffer;
-	if (dir < 0.0)
-		return val - buffer;
-	return val;
-}
+	t_coord	delta;
+	t_coord	check;
 
-void try_move(t_game *g, double new_x, double new_y, double buffer)
-{
-	double dx = new_x - g->player.x;
-	double dy = new_y - g->player.y;
-	double check_x = offset(new_x, dx, buffer);
-	double check_y = offset(new_y, dy, buffer);
-
-	if (!is_wall(g, check_y, check_x))
+	delta.x = new_x - g->player.x;
+	delta.y = new_y - g->player.y;
+	check.x = offset(new_x, delta.x, buffer);
+	check.y = offset(new_y, delta.y, buffer);
+	if (!is_wall(g, check.y, check.x))
 	{
 		g->player.x = new_x;
 		g->player.y = new_y;
+		return ;
 	}
-	else
-	{
-		double check_x_only = offset(new_x, dx, buffer);
-		double check_y_only = offset(new_y, dy, buffer);
-		if (!is_wall(g, g->player.y, check_x_only))
-			g->player.x = new_x;
-		if (!is_wall(g, check_y_only, g->player.x))
-			g->player.y = new_y;
-	}
+	check.x = offset(new_x, delta.x, buffer);
+	if (!is_wall(g, g->player.y, check.x))
+		g->player.x = new_x;
+	check.y = offset(new_y, delta.y, buffer);
+	if (!is_wall(g, check.y, g->player.x))
+		g->player.y = new_y;
 }
 
-void move_player(t_game *g, int key)
+void	move_player(t_game *g, int key)
 {
-	double dx;
-	double dy;
-	double ms = g->player.move_speed;
-	double new_x;
-	double new_y;
-	const double buffer = 0.1;
+	t_coord	dir;
+	t_coord	new_pos;
+	double	ms;
+	double	buffer;
 
-	get_direction(g, key, &dx, &dy);
-	new_x = g->player.x + dx * ms;
-	new_y = g->player.y + dy * ms;
-	try_move(g, new_x, new_y, buffer);
+	ms = g->player.move_speed;
+	buffer = 0.1;
+	get_direction(g, key, &dir.x, &dir.y);
+	new_pos.x = g->player.x + dir.x * ms;
+	new_pos.y = g->player.y + dir.y * ms;
+	try_move(g, new_pos.x, new_pos.y, buffer);
 }
 
-void rotate_player(t_player *p, double angle)
+void	rotate_player(t_player *p, double angle)
 {
-	double old_dir_x;
-	double old_plane_x;
-	double cos_a;
-	double sin_a;
+	double	old_dir_x;
+	double	old_plane_x;
+	double	cos_a;
+	double	sin_a;
 
 	cos_a = cos(angle);
 	sin_a = sin(angle);
