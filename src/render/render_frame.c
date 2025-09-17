@@ -6,15 +6,15 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:17:08 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/02 00:21:29 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/17 01:51:16 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
-int	get_sky_color(t_color c)
+int	get_color(t_color color)
 {
-	return ((c.r << 16) | (c.g << 8) | c.b);
+	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
 void	put_bg_pixel(t_game *g, t_coord pos, int sky, int floor)
@@ -35,8 +35,8 @@ void	draw_bg_color(t_game *g)
 	int		sky;
 	int		floor;
 
-	sky = get_sky_color(g->ceiling_c);
-	floor = get_sky_color(g->floor_c);
+	sky = get_color(g->ceiling_c);
+	floor = get_color(g->floor_c);
 	pos.y = 0;
 	while ((int)pos.y < g->win_h)
 	{
@@ -65,6 +65,7 @@ void	render_walls(t_game *g)
 
 int	render_frame(t_game *g)
 {
+	handle_mouse_rotation(g);
 	if (!g->frame.img_ptr)
 		return (0);
 	if (g->ceiling_tex.img_ptr && g->floor_tex.img_ptr)
@@ -72,7 +73,6 @@ int	render_frame(t_game *g)
 	else
 		draw_bg_color(g);
 	render_walls(g);
-	handle_mouse_rotation_bonus(g);
 	mlx_put_image_to_window(g->mlx, g->win, g->frame.img_ptr, 0, 0);
 	return (0);
 }

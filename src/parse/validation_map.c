@@ -6,11 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 00:07:03 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/02 00:42:07 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/09 16:35:40 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 int	is_position_safe(t_map *map, int i, int j)
 {

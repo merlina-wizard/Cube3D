@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🧪 Cube3D Memory Leak Testing Suite"
+echo "🧪 cub3d Memory Leak Testing Suite"
 echo "===================================="
 
 make re

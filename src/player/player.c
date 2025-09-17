@@ -6,11 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:36:58 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/03 14:14:21 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/09 16:35:40 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 int	is_wall(t_game *g, double y, double x)
 {

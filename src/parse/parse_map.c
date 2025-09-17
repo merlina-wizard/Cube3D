@@ -6,11 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 16:01:55 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/01 23:27:41 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/09 16:35:40 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 char	**extract_map(char **lines, int start, int height)
 {

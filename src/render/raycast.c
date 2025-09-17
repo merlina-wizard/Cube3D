@@ -6,11 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 17:05:33 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/08/06 17:11:34 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/09 16:35:40 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 /* Finish perpendicular distance calculation */
 void	finalize_dist(t_game *g, t_ray *r)

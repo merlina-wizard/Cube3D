@@ -6,11 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:56:19 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/08/07 10:41:48 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/09 16:35:40 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 void	draw_bg_tex(t_game *g)
 {

@@ -6,11 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 19:05:19 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/01 23:28:16 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/09 16:35:40 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "cube3d.h"
+// #include "cub3d.h"
 
 // int validate_borders(char **map, int height,
 // 							int width)
@@ -72,7 +72,7 @@
 // 	return 1;
 // }
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 int	validate_borders(t_map *map)
 {

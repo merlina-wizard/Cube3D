@@ -6,27 +6,23 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 23:30:38 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/02 00:55:31 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/17 01:43:57 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
-
-void	print_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		printf("%s\n", map[i]);
-		i++;
-	}
-}
+#include "cub3d.h"
 
 int	error(char *message)
 {
 	printf("Error: %s\n", message);
+	return (0);
+}
+
+int	error_exit(char *msg, t_game *g)
+{
+	printf("Error: %s\n", msg);
+	free_all(g);
+	exit(1);
 	return (0);
 }
 

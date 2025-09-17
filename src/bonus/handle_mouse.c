@@ -1,40 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   events.c                                           :+:      :+:    :+:   */
+/*   handle_mouse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 16:21:51 by mamerlin          #+#    #+#             */
-/*   Updated: 2025/09/17 02:02:42 by lorenzo          ###   ########.fr       */
+/*   Created: 2025/09/09 16:31:13 by lorenzo           #+#    #+#             */
+/*   Updated: 2025/09/09 16:34:01 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	handle_exit(t_game *g)
-{
-	free_all(g);
-	exit(0);
-	return (0);
-}
-
-int	handle_key(int key, t_game *g)
-{
-	if (key == KEY_ESC)
-		handle_exit(g);
-	else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
-		move_player(g, key);
-	else if (key == KEY_LEFT)
-		rotate_player(&g->player, -g->player.rot_speed);
-	else if (key == KEY_RIGHT)
-		rotate_player(&g->player, g->player.rot_speed);
-	else if (key == 'm' || key == 'M')
-		toggle_mouse_control(g);
-	return (0);
-}
-
-#define MOUSE_SENS 0.002
+#define MOUSE_SENS 0.001
 
 // Centra il mouse nella finestra
 void	center_mouse(t_game *g)

@@ -6,11 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:55:40 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/03 12:21:18 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/17 01:59:07 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 static int	open_and_read_file(const char *p, char ***out)
 {
@@ -89,6 +89,7 @@ int main(int ac, char **av)
 	mlx_loop_hook(g.mlx, render_frame, &g);
 	mlx_hook(g.win, 17, 0, handle_exit, &g);
 	mlx_hook(g.win, 2, 1L<<0, handle_key, &g);
+	mlx_hook(g.win, 6, 1L<<6, mouse_move_hook, &g);
 	mlx_loop(g.mlx);
 	free_all(&g);
 	return 0;

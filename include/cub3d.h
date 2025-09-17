@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   cub3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -65,13 +65,16 @@ typedef struct s_game
 	t_img		floor_tex; // texture del pavimento e del soffitt
 	t_img		frame;
 	t_ray		ray; // struttura per il raycasting
+	int			mouse_enabled; // Flag per controllo mouse attivo
 }	t_game;
 
 //events.c
 int		handle_exit(t_game *g);
 int		handle_key(int key, t_game *g);
-int		center_mouse(t_game *g, int cx, int cy);
-void	handle_mouse_rotation_bonus(t_game *g);
+void	toggle_mouse_control(t_game *g);
+void	center_mouse(t_game *g);
+void	handle_mouse_rotation(t_game *g);
+int	mouse_move_hook(int x, int y, t_game *g);
 //
 //init_game.c
 void	init_game(t_game *g);
@@ -94,7 +97,7 @@ int		parse_map(t_game *g, char **lines);
 //
 //parse_Render.c
 int		ft_strcmp(const char *s1, const char *s2);
-int		is_color_key(char *k);
+int		init_rgb(char *val, t_color *color, t_game *g);
 int		parse_color_line(char *key, char *val, t_game *g);
 int		parse_render_info(t_game *g, char **lines, int map_start);
 //
@@ -140,15 +143,16 @@ void	draw_tex_pixel(t_game *g, int x, int y);
 t_img	*get_tex(t_game *g, int y);
 //
 //render_frame.c
-int		get_sky_color(t_color c);
+int		get_color(t_color c);
 void	put_bg_pixel(t_game *g, t_coord pos, int sky, int floor);
 void	draw_bg_color(t_game *g);
 void	render_walls(t_game *g);
 int		render_frame(t_game *g);
 //
-//utils/gg
+//utils/utils2l
 void	print_map(char **map);
 int		error(char *message);
+int		error_exit(char *msg, t_game *g);
 int		is_valid_map_char(char c);
 void	free_textures(t_game *g);
 void	free_all(t_game *g);

@@ -6,11 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 00:41:49 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/02 00:55:36 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/17 01:44:01 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 void	init_player_dir(char c, t_player *p)
 {
@@ -75,4 +75,16 @@ int	find_map_start(char **lines)
 		i++;
 	}
 	return (-1);
+}
+
+void	print_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		printf("%s\n", map[i]);
+		i++;
+	}
 }
