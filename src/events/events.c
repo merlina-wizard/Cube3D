@@ -6,7 +6,7 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:21:51 by mamerlin          #+#    #+#             */
-/*   Updated: 2025/09/17 02:02:42 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/17 02:11:36 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	handle_key(int key, t_game *g)
 
 #define MOUSE_SENS 0.002
 
-// Centra il mouse nella finestra
 void	center_mouse(t_game *g)
 {
 	int	center_x;
@@ -47,7 +46,6 @@ void	center_mouse(t_game *g)
 	mlx_mouse_move(g->mlx, g->win, center_x, center_y);
 }
 
-// Attiva/disattiva controllo mouse
 void	toggle_mouse_control(t_game *g)
 {
 	g->mouse_enabled = !g->mouse_enabled;
@@ -64,7 +62,6 @@ void	toggle_mouse_control(t_game *g)
 	}
 }
 
-// Gestisce il movimento del mouse - USA rotate_player ESISTENTE!
 void	handle_mouse_rotation(t_game *g)
 {
 	int		current_x;
