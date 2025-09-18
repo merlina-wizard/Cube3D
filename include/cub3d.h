@@ -74,7 +74,7 @@ int		handle_key(int key, t_game *g);
 void	toggle_mouse_control(t_game *g);
 void	center_mouse(t_game *g);
 void	handle_mouse_rotation(t_game *g);
-int	mouse_move_hook(int x, int y, t_game *g);
+int		mouse_move_hook(int x, int y, t_game *g);
 //
 //init_game.c
 void	init_game(t_game *g);
