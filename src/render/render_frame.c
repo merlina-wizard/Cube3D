@@ -6,16 +6,11 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 17:17:08 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/17 01:51:16 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/21 11:50:57 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	get_color(t_color color)
-{
-	return ((color.r << 16) | (color.g << 8) | color.b);
-}
 
 void	put_bg_pixel(t_game *g, t_coord pos, int sky, int floor)
 {
@@ -63,9 +58,17 @@ void	render_walls(t_game *g)
 	}
 }
 
+void	show_start_screen(t_game *g)
+{
+	mlx_string_put(g->mlx, g->win, g->win_w / 2 - 60,
+		g->win_h / 2, 0xFFFFFF, "Press ENTER to start");
+	if (!check_minimap_size(g))
+		mlx_string_put(g->mlx, g->win, g->win_w / 2 - 70,
+			g->win_h / 2 + 30, 0xFF0000, "Warning: Map too large");
+}
+
 int	render_frame(t_game *g)
 {
-	handle_mouse_rotation(g);
 	if (!g->frame.img_ptr)
 		return (0);
 	if (g->ceiling_tex.img_ptr && g->floor_tex.img_ptr)
@@ -73,6 +76,10 @@ int	render_frame(t_game *g)
 	else
 		draw_bg_color(g);
 	render_walls(g);
+	if (g->game_started && check_minimap_size(g))
+		draw_minimap(g);
 	mlx_put_image_to_window(g->mlx, g->win, g->frame.img_ptr, 0, 0);
+	if (!g->game_started)
+		show_start_screen(g);
 	return (0);
 }

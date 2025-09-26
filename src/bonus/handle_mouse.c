@@ -6,15 +6,12 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 16:31:13 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/09 16:34:01 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/21 13:58:37 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-#define MOUSE_SENS 0.001
-
-// Centra il mouse nella finestra
 void	center_mouse(t_game *g)
 {
 	int	center_x;
@@ -25,7 +22,6 @@ void	center_mouse(t_game *g)
 	mlx_mouse_move(g->mlx, g->win, center_x, center_y);
 }
 
-// Attiva/disattiva controllo mouse
 void	toggle_mouse_control(t_game *g)
 {
 	g->mouse_enabled = !g->mouse_enabled;
@@ -40,28 +36,6 @@ void	toggle_mouse_control(t_game *g)
 		mlx_mouse_show(g->mlx, g->win);
 		printf("Mouse control: OFF\n");
 	}
-}
-
-// Gestisce il movimento del mouse - USA rotate_player ESISTENTE!
-void	handle_mouse_rotation(t_game *g)
-{
-	int		current_x;
-	int		current_y;
-	int		delta_x;
-	int		center_x;
-	double	rotation_angle;
-
-	if (!g->mouse_enabled)
-		return ;
-	if (mlx_mouse_get_pos(g->mlx, g->win, &current_x, &current_y) != 0)
-		return ;
-	center_x = g->win_w / 2;
-	delta_x = current_x - center_x;
-	if (abs(delta_x) < 3)
-		return ;
-	rotation_angle = (double)delta_x * MOUSE_SENS;
-	rotate_player(&g->player, rotation_angle);
-	center_mouse(g);
 }
 
 int	mouse_move_hook(int x, int y, t_game *g)
@@ -80,7 +54,7 @@ int	mouse_move_hook(int x, int y, t_game *g)
 	delta_x = x - old_x;
 	if (abs(delta_x) > 0)
 	{
-		rotation_angle = (double)delta_x * 0.003;
+		rotation_angle = (double)delta_x * 0.002;
 		rotate_player(&g->player, rotation_angle);
 		old_x = x;
 		if (x < 100 || x > g->win_w - 100)

@@ -6,12 +6,37 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:26:42 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/02 00:59:18 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/26 11:11:05 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDER_H
 # define RENDER_H
+
+# define VORTEX_FRAMES 4
+# define VORTEX_SPEED 100
+
+# define MINIMAP_SCALE    10
+# define MINIMAP_OFFSET   20
+# define MINIMAP_SIZE     200
+# define MINIMAP_PLAYER   3
+
+# define C_MINIMAP_WALL       0x444444
+# define C_MINIMAP_FLOOR      0x222222
+# define C_MINIMAP_PLAYER     0xFF0000
+# define C_MINIMAP_BORDER     0xFFFFFF
+# define C_MINIMAP_FOV        0xFFFF00
+
+
+// typedef struct s_vortex
+// {
+// 	double	x;
+// 	double	y;
+// 	t_img	frames[4];
+// 	int		current_frame;
+// 	int		last_update;
+// 	int		active;
+// }	t_vortex;
 
 typedef struct s_img
 {

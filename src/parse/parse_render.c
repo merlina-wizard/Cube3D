@@ -6,7 +6,7 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 16:03:20 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/17 01:43:16 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/20 11:48:34 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	init_rgb(char *val, t_color *color, t_game *g)
 
 	rgb = ft_split(val, ',');
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2])
-		return (error_exit("Invalid color format, USE; R,G,B", g));
+		return (error_exit("Invalid color format, USE; R,G,B in .cub file", g));
 	color->r = ft_atoi(rgb[0]);
 	color->g = ft_atoi(rgb[1]);
 	color->b = ft_atoi(rgb[2]);
@@ -36,7 +36,7 @@ int	init_rgb(char *val, t_color *color, t_game *g)
 	if (color->r < 0 || color->r > 255
 		|| color->g < 0 || color->g > 255
 		|| color->b < 0 || color->b > 255)
-		return (error_exit("RGB values must be 0-255", g));
+		return (error_exit("RGB values must be 0-255 in .cub file", g));
 	return (1);
 }
 

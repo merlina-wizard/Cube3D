@@ -6,7 +6,7 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 00:41:49 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/18 10:47:14 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/21 19:27:13 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 void	init_player_dir(char c, t_player *p)
 {
 	p->dir_x = 0;
-	p->dir_y = 1;
+	p->dir_y = -1;
 	p->plane_x = 0.66;
 	p->plane_y = 0;
 	if (c == 'S')
-		p->dir_y = -1;
+	{
+		p->dir_y = 1;
+		p->plane_x = -0.66;
+	}
 	else if (c == 'E')
 	{
 		p->dir_x = 1;
@@ -32,7 +35,7 @@ void	init_player_dir(char c, t_player *p)
 		p->dir_x = -1;
 		p->dir_y = 0;
 		p->plane_x = 0;
-		p->plane_y = 0.66;
+		p->plane_y = -0.66;
 	}
 }
 

@@ -6,7 +6,7 @@
 #    By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/02 01:04:08 by lorenzo           #+#    #+#              #
-#    Updated: 2025/09/02 01:04:14 by lorenzo          ###   ########.fr        #
+#    Updated: 2025/09/21 13:44:32 by lorenzo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,9 @@ SRC = \
 	src/render/raycast_utils.c \
 	src/render/render_frame.c \
 	src/render/render_frame_utils.c \
+	src/bonus/handle_mouse.c \
+	src/bonus/minimap.c \
+	src/bonus/minimap_utils.c \
 	src/utils/utils.c \
 	src/utils/gg.c \
 	include/gnl/get_next_line.c \

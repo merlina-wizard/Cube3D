@@ -6,13 +6,13 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:58:49 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/09 16:35:40 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/20 11:49:22 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	init_window_and_map(t_game *g)
+void	init_window_and_map(t_game *g)
 {
 	g->mlx = NULL;
 	g->win = NULL;
@@ -23,7 +23,7 @@ static void	init_window_and_map(t_game *g)
 	g->map.height = 0;
 }
 
-static void	init_player_and_textures(t_game *g)
+void	init_player_and_textures(t_game *g)
 {
 	int	i;
 
@@ -42,6 +42,7 @@ static void	init_player_and_textures(t_game *g)
 	g->ceiling_tex.img_ptr = NULL;
 	g->floor_c = (t_color){-1, -1, -1};
 	g->ceiling_c = (t_color){-1, -1, -1};
+	g->game_started = 0;
 }
 
 void	init_game(t_game *g)

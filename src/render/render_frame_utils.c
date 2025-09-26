@@ -6,11 +6,16 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:56:19 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/09 16:35:40 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/20 11:39:41 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	get_color(t_color color)
+{
+	return ((color.r << 16) | (color.g << 8) | color.b);
+}
 
 void	draw_bg_tex(t_game *g)
 {

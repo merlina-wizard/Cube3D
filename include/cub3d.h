@@ -66,6 +66,10 @@ typedef struct s_game
 	t_img		frame;
 	t_ray		ray; // struttura per il raycasting
 	int			mouse_enabled; // Flag per controllo mouse attivo
+	int			game_started; //flag controllo start
+	// t_vortex	*vortex;
+	//int			vortex_count;
+	//int			is_dead;
 }	t_game;
 
 //events.c
@@ -73,10 +77,11 @@ int		handle_exit(t_game *g);
 int		handle_key(int key, t_game *g);
 void	toggle_mouse_control(t_game *g);
 void	center_mouse(t_game *g);
-void	handle_mouse_rotation(t_game *g);
 int		mouse_move_hook(int x, int y, t_game *g);
 //
 //init_game.c
+void	init_window_and_map(t_game *g);
+void	init_player_and_textures(t_game *g);
 void	init_game(t_game *g);
 //
 //init_mlx.c
@@ -84,13 +89,11 @@ int		mlx_boot(t_game *g);
 int		load_texture(void *mlx, t_img *t, char *path, char *msg);
 int		init_window_and_frame(t_game *g);
 //
-//parse_map_utils.c
+//parse_map.c/parse_map_utils.c
 int		count_map_lines(char **lines, int start);
 int		alloc_map(t_map *map, char **tmp_map);
 int		is_map_line(const char *line);
 void	free_split(char **split);
-//
-//parse_map.c
 char	**extract_map(char **lines, int start, int height);
 int		load_tmp_map(char ***tmp_map, char **lines, int *start, int *height);
 int		parse_map(t_game *g, char **lines);
@@ -101,14 +104,12 @@ int		init_rgb(char *val, t_color *color, t_game *g);
 int		parse_color_line(char *key, char *val, t_game *g);
 int		parse_render_info(t_game *g, char **lines, int map_start);
 //
-//validation_map_utils.c
+//validation_map.c/validation_map_utils.c
 int		validate_borders(t_map *map);
 int		check_top_bottom_borders(t_map *map);
 int		check_side_borders(t_map *map);
 void	init_direction_arrays(int *di, int *dj);
 int		check_surroundings(t_map *map, int i, int j);
-//
-//validation_map.c
 int		is_position_safe(t_map *map, int i, int j);
 int		handle_player_found(t_player *p, int *p_count, int i, int j);
 int		handle_cell(t_map *map, t_player *p, int *p_count, t_coord pos);
@@ -123,33 +124,40 @@ void	try_move(t_game *g, double new_x, double new_y, double buffer);
 void	move_player(t_game *g, int key);
 void	rotate_player(t_player *p, double angle);
 //
-//raycast_utils.c
+//raycast.c/raycast_utils.c
 int		select_tex(t_ray *r);
 void	cast_ray(t_game *g, int x);
 void	init_dir_dist(t_game *g, t_ray *r, int x);
 void	init_step_hit(t_game *g, t_ray *r);
 void	perform_dda(t_game *g, t_ray *r);
-//
-//raycast.c
 void	finalize_dist(t_game *g, t_ray *r);
 void	calc_slice(t_game *g, t_ray *r, t_slice_info *s);
 double	compute_wall_x(t_game *g, t_ray *r);
 void	draw_vertical_line(t_game *g, t_ray *r, t_slice_info *s, int x);
 void	draw_wall_slice(t_game *g, int x, t_ray *r);
 //
-//render_frame_utils.c
+//render_frame.c/render_frame_utils.c
+int		get_color(t_color c);										
 void	draw_bg_tex(t_game *g);
 void	draw_tex_pixel(t_game *g, int x, int y);
 t_img	*get_tex(t_game *g, int y);
-//
-//render_frame.c
-int		get_color(t_color c);
 void	put_bg_pixel(t_game *g, t_coord pos, int sky, int floor);
 void	draw_bg_color(t_game *g);
 void	render_walls(t_game *g);
+void	show_start_screen(t_game *g);
 int		render_frame(t_game *g);
 //
-//utils/utils2l
+////minimap.c/minimap_utils.c
+int		check_minimap_size(t_game *g);
+void	put_minimap_pixel(t_game *g, int x, int y, int color);
+void	draw_minimap_warning(t_game *g);
+void	draw_minimap_square(t_game *g, int start_x, int start_y, int color);
+void	draw_minimap_grid(t_game *g);
+void	draw_player_circle(t_game *g, int px, int py);
+void	draw_player_fov(t_game *g, int px, int py);
+void	draw_minimap(t_game *g);
+//
+//utils.c/utils2.c
 void	print_map(char **map);
 int		error(char *message);
 int		error_exit(char *msg, t_game *g);
