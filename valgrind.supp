@@ -1,0 +1,67 @@
+# Valgrind suppression file per MLX e X11
+# Per usarlo: valgrind --suppressions=valgrind.supp ./cub3D map.cub
+
+# ===== ERRORI MLX =====
+{
+   MLX_init_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   fun:calloc
+   fun:mlx_init
+}
+
+{
+   MLX_new_window_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   fun:malloc
+   fun:mlx_new_window
+}
+
+{
+   MLX_writev_uninit
+   Memcheck:Param
+   writev(vector[0])
+   fun:writev
+   obj:*libxcb.so*
+   fun:mlx_int_wait_first_expose
+}
+
+# ===== ERRORI X11/XCB =====
+{
+   XCB_writev_uninit
+   Memcheck:Param
+   writev(vector[0])
+   fun:writev
+   obj:*libxcb.so*
+}
+
+{
+   X11_OpenDisplay_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   fun:calloc
+   fun:XOpenDisplay
+}
+
+{
+   X11_general_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   obj:*libX11.so*
+}
+
+# ===== STILL REACHABLE =====
+{
+   still_reachable_all
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+}
+
+{
+   still_reachable_calloc
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+}

@@ -6,7 +6,7 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:26:42 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/26 11:11:05 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/27 19:13:32 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,6 @@
 # define C_MINIMAP_PLAYER     0xFF0000
 # define C_MINIMAP_BORDER     0xFFFFFF
 # define C_MINIMAP_FOV        0xFFFF00
-
-
-// typedef struct s_vortex
-// {
-// 	double	x;
-// 	double	y;
-// 	t_img	frames[4];
-// 	int		current_frame;
-// 	int		last_update;
-// 	int		active;
-// }	t_vortex;
 
 typedef struct s_img
 {

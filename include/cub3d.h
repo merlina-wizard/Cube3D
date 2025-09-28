@@ -67,9 +67,6 @@ typedef struct s_game
 	t_ray		ray; // struttura per il raycasting
 	int			mouse_enabled; // Flag per controllo mouse attivo
 	int			game_started; //flag controllo start
-	// t_vortex	*vortex;
-	//int			vortex_count;
-	//int			is_dead;
 }	t_game;
 
 //events.c
@@ -80,8 +77,6 @@ void	center_mouse(t_game *g);
 int		mouse_move_hook(int x, int y, t_game *g);
 //
 //init_game.c
-void	init_window_and_map(t_game *g);
-void	init_player_and_textures(t_game *g);
 void	init_game(t_game *g);
 //
 //init_mlx.c
@@ -156,6 +151,7 @@ void	draw_minimap_grid(t_game *g);
 void	draw_player_circle(t_game *g, int px, int py);
 void	draw_player_fov(t_game *g, int px, int py);
 void	draw_minimap(t_game *g);
+void	free_minimap(t_game *g);
 //
 //utils.c/utils2.c
 void	print_map(char **map);

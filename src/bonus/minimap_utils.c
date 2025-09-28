@@ -6,7 +6,7 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 11:54:27 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/26 11:08:41 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/28 20:00:30 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,18 @@ void	draw_minimap_warning(t_game *g)
 	x = MINIMAP_OFFSET;
 	y = MINIMAP_OFFSET + 10;
 	mlx_string_put(g->mlx, g->win, x, y, C_MINIMAP_WALL, msg);
+}
+
+void	free_minimap(t_game *g)
+{
+	int	i;
+
+	i = 0;
+	if (g->map.grid)
+	{
+		while (i < g->map.height && g->map.grid[i])
+			free(g->map.grid[i++]);
+		free(g->map.grid);
+		g->map.grid = NULL;
+	}
 }

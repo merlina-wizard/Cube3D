@@ -6,7 +6,7 @@
 /*   By: lorenzo <lorenzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 23:30:38 by lorenzo           #+#    #+#             */
-/*   Updated: 2025/09/17 01:43:57 by lorenzo          ###   ########.fr       */
+/*   Updated: 2025/09/28 20:00:25 by lorenzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,24 @@ void	free_textures(t_game *g)
 
 void	free_all(t_game *g)
 {
-	int	i;
-
-	i = 0;
 	if (!g)
 		return ;
 	free_textures(g);
 	if (g->mlx && g->frame.img_ptr)
 		mlx_destroy_image(g->mlx, g->frame.img_ptr);
-	if (g->map.grid)
-	{
-		while (i < g->map.height && g->map.grid[i])
-			free(g->map.grid[i++]);
-		free(g->map.grid);
-		g->map.grid = NULL;
-	}
+	free_minimap(g);
 	if (g->mlx)
 	{
+		if (g->mouse_enabled)
+		{
+			mlx_mouse_show(g->mlx, g->win);
+			g->mouse_enabled = 0;
+		}
 		if (g->win)
 			mlx_destroy_window(g->mlx, g->win);
 		mlx_destroy_display(g->mlx);
 		free(g->mlx);
 	}
-	g->mlx = NULL;
 	g->win = NULL;
+	g->mlx = NULL;
 }
